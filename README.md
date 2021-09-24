@@ -16,6 +16,8 @@ You're sections headers will be used to reference location of destination.
 
 ---
 
+## Description
+
 This is a  Python/Flask tool to generate two data visualizations: the Potential Robustness Diagram relates a set of similarities with the corresponding accuracy score; the External Performance Diagram displays the results of three performance analyses (discriminative, utility, calibration) as a function of the similarity between training/validation and external validation sets(see down below for resources).
 
 You can test the tool directly from Heroku clicking on the following link
@@ -25,7 +27,7 @@ You can test the tool directly from Heroku clicking on the following link
 
 Make sure you have installed all of the following prerequisites on your development machine:
 
-- Python 3.9, [click here for the download](https://prova-meta-validation.herokuapp.com/)
+- Python 3.9
 - pip
 - Git
 
@@ -54,7 +56,7 @@ Make sure you have installed all of the following prerequisites on your developm
     ```
     Make sure all dependencies are installed on your env!
 
-### Running the tool on LocalHost
+### Running the tool 
 
 - Make sure that env is active and type `python flask_start_multiple_views.py`
 
@@ -74,9 +76,15 @@ Make sure you have installed all of the following prerequisites on your developm
     
     Now you can use the tool!
     
-## Contributing
-    Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## DReferences
 
-    Please make sure to update tests as appropriate.
+For more details on this score please refer to:
+Cabitza, F., Campagner, A., Soares, F., de Guardiana Romualdo, L. G., Challa, F., Sulejmani, A.,
+Seghezzi, M., Carobene,A. (2021). The importance of being external. methodological insights for 
+the external validation of machine learning models in medicine. Computer Methods and Programs in Biomedicine.
+Volume 208, September 2021, 106288 (10.1016/j.cmpb.2021.106288)
+For more datails go to https://doi.org/10.1016/j.cmpb.2021.106288
+    
+    
 
 
