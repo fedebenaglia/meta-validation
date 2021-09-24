@@ -39,7 +39,7 @@ Make sure you have installed all of the following prerequisites on your developm
     cd ~/dev
     git clone GITHUB_REPO my_app
     ```
-- Create the virual environment and activate it
+- Create the virual environment and activate it(the current code line works for windows)
     ```    
     # Create the virtual environment
     python -m venv MY_NAME_ENV
@@ -52,7 +52,24 @@ Make sure you have installed all of the following prerequisites on your developm
     # Install required Python packages
     pip install -r requirements.txt
     ```
+Make sure all dependencies are installed on your env!
 
+### Running the tool on LocalHost
 
+- Make sure that env is active and type `python flask_start_multiple_views.py`
+
+    ```
+    * Serving Flask app 'flask_start_multiple_views' (lazy loading)
+     * Environment: production
+       WARNING: This is a development server. Do not use it in a production deployment.
+       Use a production WSGI server instead.
+     * Debug mode: on
+     * Restarting with stat
+     * Debugger is active!
+     * Debugger PIN: PIN
+     * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+    ```
+
+Click on it or copy and paste the address into the browser to see the project running
 
 
