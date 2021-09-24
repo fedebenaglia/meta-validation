@@ -10,6 +10,7 @@ You're sections headers will be used to reference location of destination.
 - [Description](#description)
 - [Prerequisites](#prerequisites)
 - [How To Use](#how-to-use)
+- [Contributing](#contributing)
 - [References](#references)
 
 ---
@@ -34,12 +35,14 @@ Make sure you have installed all of the following prerequisites on your developm
 ### Setting up a development environment
 
 - Open the Terminal from youre code editor,move to project folder and clone the project from gitHub 
+
     ```
     # Clone the code repository into ~/dev/my_app
     cd ~/dev
     git clone GITHUB_REPO my_app
     ```
 - Create the virual environment and activate it(the current code line works for windows)
+
     ```    
     # Create the virtual environment
     python -m venv MY_NAME_ENV
@@ -48,6 +51,7 @@ Make sure you have installed all of the following prerequisites on your developm
     MY_NAME_ENV\Scripts\activate.bat
     ```
 - Let's install all the Libraries required to run the tool
+
     ```
     # Install required Python packages
     pip install -r requirements.txt
@@ -92,7 +96,7 @@ need to download and install the [Heroku CLI](https://devcenter.heroku.com/artic
 - Add a remote to your local repository with the heroku command `heroku git:remote -a prova-meta-validation` 
 - Deploy on Heroku with `git push heroku master`, this operation it can last a few minutes
     
-## DReferences
+## References
 
 For more details on this score please refer to:
 Cabitza, F., Campagner, A., Soares, F., de Guardiana Romualdo, L. G., Challa, F., Sulejmani, A.,
