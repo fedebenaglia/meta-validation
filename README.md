@@ -76,6 +76,23 @@ Make sure you have installed all of the following prerequisites on your developm
     
     Now you can use the tool!
     
+## Contributing on Heroku
+
+If you are a contributors you can collaborate with other developers, before you share the project you
+need to download and install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+
+- acces with your heroku account typing `heroku login`
+    ```
+    heroku: Press any key to open up the browser to login or q to exit: 
+    ```
+- If not installed you need to type `pip install gunicorn` to push your code on Heroku
+- Use the Git commands to inizialize, add and commit your changes with:
+    `git init`
+    `git add .`
+    `git commit -m "COMMIT_MESSAGE"`
+- Add a remote to your local repository with the heroku command `heroku git:remote -a prova-meta-validation` 
+- Deploy on Heroku with `git push heroku master`, this operation it can last a few minutes
+    
 ## DReferences
 
 For more details on this score please refer to:
