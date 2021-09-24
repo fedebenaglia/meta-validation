@@ -33,7 +33,7 @@ Make sure you have installed all of the following prerequisites on your developm
 #### Setting up a development environment
 
 - Open the Terminal and move on the cwd 
-
+    ```
     # Clone the code repository into ~/dev/my_app
     mkdir -p ~/dev
     cd ~/dev
@@ -46,7 +46,7 @@ Make sure you have installed all of the following prerequisites on your developm
     cd ~/dev/my_app
     workon my_app
     pip install -r requirements.txt
-
+    ```
 
 
 
