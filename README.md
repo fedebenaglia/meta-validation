@@ -52,7 +52,7 @@ Make sure you have installed all of the following prerequisites on your developm
     # Install required Python packages
     pip install -r requirements.txt
     ```
-Make sure all dependencies are installed on your env!
+    Make sure all dependencies are installed on your env!
 
 ### Running the tool on LocalHost
 
@@ -70,6 +70,6 @@ Make sure all dependencies are installed on your env!
      * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
     ```
 
-Click on it or copy and paste the address into the browser to see the project running
+    Click on it or copy and paste the address into the browser to see the project running
 
 
