@@ -73,4 +73,10 @@ Make sure you have installed all of the following prerequisites on your developm
     Click on it or copy and paste the address into the browser to see the project running
     
     Now you can use the tool!
+    
+## Contributing
+    Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+    Please make sure to update tests as appropriate.
+
 
