@@ -1,0 +1,1 @@
+web: gunicorn flask_start_multiple_views:app

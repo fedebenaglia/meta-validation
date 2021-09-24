@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/visualizations.css">
+    <title>Meta-validation plots for external validation of ML models</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row fixed-top align-items-center">
+            <div class="col">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, msg in messages %}
+                <div class="alert alert-{{ category }} text-center">
+                    <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ msg }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="row align-items-center justify-content-center align-items-center">
+            <div class="col text-center">
+
+                <h1 class="mb-5"> Meta-validation plots for external validation of ML models</h1>
+                <p class="description text-left">This is an online tool to generate two data visualizations: the Potential Robustness Diagram relates a set of similarities 
+                    with the corresponding accuracy score; the External Performance Diagram displays the results of three performance analyses (discriminative, utility, calibration) as a function of the similarity 
+                    between training/validation and external validation sets. The metrics considered are: the Area under the Curve (AUC), the Standardized Net Benefit (NBS) and the Brier Score, respectively.
+                    To produce one of the data visualizations mentioned above, the service needs some mandatory files and additional optional ones depending on the requested visualization (the description 
+                    of each input file is specified in the sections below).</p>
+                <p class="text-left">N.B.: Files must have .csv extension and no missing values.</p>
+                <p class="text-right font-italic">Files marked with * are mandatory</p>
+            </div>
+        </div>
+
+        <div class="row  align-items-center mt-4">
+            <div class="col justify-content-center ">
+                <div class="text-center mb-2">
+                    <h4>Please select one of the Visualization</h4>
+                </div>
+                <ul class="nav nav-pills nav-fill nav-justified mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-info btn-lg border border-info border-right-0"
+                            id="pills-plt1-tab" data-toggle="pill" href="#pills-plt1" role="tab"
+                            aria-controls="pills-plt1" aria-selected="true">Potential Robustness Diagram</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link  btn btn-outline-info border btn-lg border-info " id="pills-plt2-tab"
+                            data-toggle="pill" href="#pills-plt2" role="tab" aria-controls="pills-plt2"
+                            aria-selected="false">External Performance Diagram</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade" id="pills-plt1" role="tabpanel" aria-labelledby="pills-plt1-tab">
+
+                        <form class="form-upload" method="POST" enctype="multipart/form-data"
+                            action="{{ url_for('choose_form')}}">
+                            <dl>
+                                <dt>inputs.csv *</dt>
+                                <dd class="mb-3">A csv file with 2 columns: similarity scores and accuracy scores (both between 0 and 1), 
+                                    the file must have explicitly 'metrics' and 'similarities' as columns name</dd>
+                                <div class="custom-file mb-5">
+                                    <input type="file" class="custom-file-input" name="inputs" required>
+                                    <label class="custom-file-label" for="customFile">Choose inputs file *</label>
+                                </div>
+                            </dl>
+                            <button class="btn btn-block btn-primary" type="submit" name="submit"
+                                value="submit_plt1">Generate graph</button>
+
+                            <p class="text-center mb-3 mt-3">-- or --</p>
+                            
+                            <a href="{{ url_for('testplt1') }}" class="btn btn-block btn-primary loading-href">Generate graph with predefined data</a>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-plt2" role="tabpanel" aria-labelledby="pills-plt2-tab">
+
+                        <form class="form-upload" method="POST" enctype="multipart/form-data"
+                            action="{{ url_for('choose_form')}}">
+                            <dl>
+                                <dt>sims.csv *</dt>
+                                <dd class="mb-3">A one-dimensional array of similarities (they can be calculated in terms of "degree of correspondance" (see below) </dd>
+
+                                <div class="custom-file mb-5">
+                                    <input type="file" class="custom-file-input" name="sims"  required>
+                                    <label class="custom-file-label" for="customFile">Choose sims file *</label>
+                                </div>
+
+                                <dt>datasets.csv *</dt>
+                                <dd class="mb-3">A csv file with 2 columns: one column for real label (0 or 1) and the other one for the probability assigned for the positive class 
+                                    (between 0 and 1). The file must have explicitly 'y_true' and 'y_proba' as columns name.</dd>
+                                <div class="custom-file mb-5">
+                                    <input type="file" class="custom-file-input" id="multiple-input" name="datasets[]" multiple="true" onchange="javascript:updateList()" required>
+                                    <label class="custom-file-label" id="multiple-output" for="customFile">Choose datasets file *</label>
+                                </div>
+
+                                
+                                <dt>offsets.csv </dt>
+                                <dd class="mb-3">A csv file with 2 columns: offset_x and offset_y, each row the marked values represents the
+                                    offset of the orizontal and vertical axes from each point of the subplots, 
+                                    if one of this file is missing, the label will be positioned with a default offsets of 0.01
+                                    for each points. The file must have explicitly 'offset_x' and 'offset_y' as columns name.
+                                </dd>
+                                <div class="custom-file mb-2">
+                                    <input type="file" class="custom-file-input" name="offsets_auc">
+                                    <label class="custom-file-label" for="customFile">Choose offsets file for AUC
+                                    </label>
+                                </div>
+                                <div class="custom-file mb-2">
+                                    <input type="file" class="custom-file-input" name="offsets_nb">
+                                    <label class="custom-file-label" for="customFile">Choose offsets file for nbs
+                                    </label>
+                                </div>
+                                <div class="custom-file mb-3">
+                                    <input type="file" class="custom-file-input" name="offsets_brier">
+                                    <label class="custom-file-label" for="customFile">Choose offsets file for brier
+                                        score </label>
+                                </div>
+                            </dl>
+
+                            <button type="submit" name="submit" class="btn btn-block btn-primary"
+                                value="submit_plt2">Generate Data Visualization</button>
+
+                            <p class="text-center mb-3 mt-3">-- or --</p>
+                            
+                            <a href="{{ url_for('testplt2') }}"  class="btn btn-block btn-primary loading-href">Generate graph with predefined data</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col"></div>
+            <p class="mt-5 mb-3 text-muted text-center">For more details on this score please refer to:
+                Cabitza, F., Campagner, A., Soares, F., de Guardiana Romualdo, L. G., Challa, F., Sulejmani, A.,
+                Seghezzi, M., Carobene,
+                A. (2021). The importance of being external. methodological insights for the external validation of machine learning models in medicine. Computer Methods and Programs in Biomedicine. Volume 208, September 2021, 106288 (10.1016/j.cmpb.2021.106288)
+                <a href="https://doi.org/10.1016/j.cmpb.2021.106288">(https://doi.org/10.1016/j.cmpb.2021.106288)</a>
+            </p>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        $('.form-upload').submit(function () {
+            $(':button[type=submit]').html('<span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>Submitting...').addClass('disabled');
+        });
+    </script>
+
+    
+    <script>
+        // $(document).ready(function() {
+            $('.loading-href').click(function() {
+            // $(this).prop("disabled", true);
+            $('.loading-href').html(
+                `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+            );
+            });
+        // });
+    </script>
+
+    <script>
+         $(".custom-file-input").change(function(event){
+            var files = [];
+            for (var i = 0; i < $(this)[0].files.length; i++) {
+                files.push($(this)[0].files[i].name);
+            }
+            $(this).next('.custom-file-label').html(files.join(', ')); 
+        });
+    </script>
+    
+</body>
+
+</html>
