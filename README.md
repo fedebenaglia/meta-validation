@@ -37,9 +37,9 @@ Make sure you have installed all of the following prerequisites on your developm
 - Open the Terminal from youre code editor,move to project folder and clone the project from gitHub 
 
     ```
-    # Clone the code repository into ~/dev/my_app
+    # Clone the code repository into ~/dev/PROJECT_FOLDER
     cd ~/dev
-    git clone GITHUB_REPO my_app
+    git clone GITHUB_REPO APP_NAME
     ```
 - Create the virual environment and activate it(the current code line works for windows)
 
