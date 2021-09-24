@@ -11,8 +11,6 @@ You're sections headers will be used to reference location of destination.
 - [Prerequisites](#prerequisites)
 - [How To Use](#how-to-use)
 - [References](#references)
-- [License](#license)
-- [Author Info](#author-info)
 
 ---
 
@@ -82,6 +80,7 @@ If you are a contributors you can collaborate with other developers, before you 
 need to download and install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 
 - acces with your heroku account typing `heroku login`
+
     ```
     heroku: Press any key to open up the browser to login or q to exit: 
     ```
