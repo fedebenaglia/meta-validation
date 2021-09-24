@@ -10,7 +10,7 @@ You're sections headers will be used to reference location of destination.
 - [Description](#description)
 - [Prerequisites](#prerequisites)
 - [How To Use](#how-to-use)
-- [Contributing](#contributing)
+- [Contributing](#Contributing-on-Heroku)
 - [References](#references)
 
 ---
