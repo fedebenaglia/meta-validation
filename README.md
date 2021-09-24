@@ -27,24 +27,29 @@ Make sure you have installed all of the following prerequisites on your developm
 
 - Python 3.9, [click here for the download](https://prova-meta-validation.herokuapp.com/)
 - pip
+- Git
 
 ## How To Use
 
-#### Setting up a development environment
+### Setting up a development environment
 
-- Open the Terminal and move on the cwd 
+- Open the Terminal from youre code editor,move to project folder and clone the project from gitHub 
     ```
     # Clone the code repository into ~/dev/my_app
-    mkdir -p ~/dev
     cd ~/dev
-    git clone https://github.com/lingthio/Flask-User-starter-app.git my_app
-
+    git clone GITHUB_REPO my_app
+    ```
+- Create the virual environment and activate it
+    ```    
     # Create the virtual environment
-    mkvirtualenv -p PATH/TO/PYTHON env
+    python -m venv MY_NAME_ENV
 
+    # Activate the env
+    MY_NAME_ENV\Scripts\activate.bat
+    ```
+- Let's install all the Libraries required to run the tool
+    ```
     # Install required Python packages
-    cd ~/dev/my_app
-    workon my_app
     pip install -r requirements.txt
     ```
 
