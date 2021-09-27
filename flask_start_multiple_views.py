@@ -63,21 +63,13 @@ def choose_form(test1=False, test2 = False):
                     flash("Unable to read input data, incorrect data format in csv files, please check the data and try again", category='danger')
                     return render_template('tabs_visualizations.html')
                
-            # if scatter == '0':
-            #     img_step1 = plot_step_one(sim, metrics, scatter=False)
-            # else:
+            
             img_step1 = plot_step_one(sim, metrics, scatter=True)
 
             return render_template('results_plt1.html', img_url = img_step1)
 
         if request.form.get('submit', False) == 'submit_plt2':
             
-            # pulizia cartella upload nel caso nel clacolo precedente lo script abbia incontrato errori nella lettura dei file di input
-            # for file1 in os.listdir(app.config['UPLOAD_FOLDER']):
-            #     print(file1)
-            #     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], file1))
-            #     print("removed")
-
             sims = request.files['sims']
             datasets = request.files.getlist('datasets[]')
             offsets_auc = request.files['offsets_auc']
@@ -150,40 +142,20 @@ def choose_form(test1=False, test2 = False):
                     flash("similarities must not have any missing values!", category='danger')
                     return render_template('tabs_visualizations.html')
 
-                # if (np.isnan(np.sum(offsets_x_auc)) or np.isnan(np.sum(offsets_x_nb)) or np.isnan(np.sum(offsets_x_brier)) or
-                #         np.isnan(np.sum(offsets_y_auc)) or np.isnan(
-                #         np.sum(offsets_y_nb)) or np.isnan(np.sum(offsets_y_brier))
-                #     ):
-                #     flash("offsets files must not have any missing values!",
-                #           category='danger')
-                #     return render_template('tabs_visualizations.html')
                 
                 for dataset in datasets:
                     if dataset and not allowed_file(dataset.filename):
                         flash("dataset files need .csv extension!", category='danger')
                         return render_template('tabs_visualizations.html')     
-                #         filename = secure_filename(dataset.filename)
-                #         # dataset.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                #     else:
-                #         flash("dataset files need .csv extension!", category='danger')
-                #         return render_template('tabs_visualizations.html')        
-                    
-                print('File(s) successfully uploaded')
-                print(sims)
-                print(datasets)
-                # for dataset in os.listdir(app.config['UPLOAD_FOLDER']):
+               
+               
                 for dataset in datasets:
                     filename = secure_filename(dataset.filename)
                     print(dataset, filename)
                     singleDataset = pd.read_csv(dataset, sep=';', squeeze=True)
-                    
-                    # y_test = (pd.read_csv(os.path.join(app.config['UPLOAD_FOLDER'], dataset), sep=';', usecols=['y_true'], squeeze=True)).to_numpy()
-                    # y_proba = (pd.read_csv(os.path.join(app.config['UPLOAD_FOLDER'], dataset), sep=';', usecols=['y_proba'], squeeze=True)).to_numpy()
                     y_test = singleDataset['y_true'].to_numpy()
                     y_proba = singleDataset['y_proba'].to_numpy()
-                    # y_test = (pd.read_csv(filename, sep=';', usecols=['y_true'], squeeze=True)).to_numpy()
-                    # y_proba = (pd.read_csv(filename, sep=';', usecols=['y_proba'], squeeze=True)).to_numpy()
-                    print(y_test, y_proba)
+        
                     if np.isnan(np.sum(y_test)) or np.isnan(np.sum(y_proba)):
                         flash("y_test and y_proba must have the same number of elements", category='danger')
                         return render_template('tabs_visualizations.html')
@@ -196,14 +168,11 @@ def choose_form(test1=False, test2 = False):
                         flash("y_proba must have only numbers between 0 and 1 as elements", category='danger')
                         return render_template('tabs_visualizations.html')
 
-                    labels = np.append(labels, filename[:-4]) 
-                    print(labels)
-                    
+                    labels = np.append(labels, filename[:-4])   
                     texts= np.append(texts, filename[:2])
-                    print(texts)
-
+                    # chiamata compute 
                     results = compute(y_test, y_proba)
-                    print("Results:", results)
+                    
                     aucs= np.append(aucs, results[0])
                     nbs = np.append(nbs, results[1])
                     briers = np.append(briers, results[2])
@@ -214,10 +183,8 @@ def choose_form(test1=False, test2 = False):
                     var_auc = np.append(var_auc, results[7])
                     var_nb = np.append(var_nb, results[8])
                     var_brier = np.append(var_brier, results[9])
-                    print(aucs,nbs,briers,instances,samples_auc,samples_nb,samples_brier,var_auc,var_nb,var_brier)
+                    
 
-                print(sims)
-                print(offsets_x_auc)
                 for x in range(len(labels)):
                     labels[x] = labels[x] + " (" + texts[x] + ")"
             
@@ -225,10 +192,6 @@ def choose_form(test1=False, test2 = False):
                     flash("the number of elements in similarities must be equal to the number of dataset files inserted ", category='danger')
                     return render_template('tabs_visualizations.html')
 
-                # svuota cartella upload
-                # for dataset in os.listdir(app.config['UPLOAD_FOLDER']):
-                #     os.remove(os.path.join(app.config['UPLOAD_FOLDER'], dataset))
-                #     print("removed")
                
             except:
                 flash("Unable to read input data, incorrect data format in csv files, please check the data and try again", category='danger')
@@ -247,8 +210,6 @@ def choose_form(test1=False, test2 = False):
             return render_template('results_plt1.html', img_url = img_step1)
         
         if test2 is True:
-            # labels = np.array([])
-            # texts = np.array([]) 
             aucs = np.array([])
             nbs = np.array([])
             briers = np.array([])
@@ -262,23 +223,14 @@ def choose_form(test1=False, test2 = False):
             labels = ['Bergamo', 'Brazil_0', 'Brazil_1', 'Brazil_2', 'Desio', 'Ethiopia', 'HSR Nov', 'Spain']
             texts = ['Be', 'B0', 'B1', 'B2', 'De', 'Et', 'HS', 'Sp']
             sims = (pd.read_csv("./testfiles/plt2/sims.csv", sep=';',usecols=['similarities'],squeeze=True)).to_numpy()
-            # data = (pd.read_csv("./testfiles/plt1/datasets/Bergamo.csv", sep=';', squeeze=True))
-            # y_test = data['y_true'].to_numpy()
-            # y_proba = data['y_test'].to_numpy()
             files = ['Bergamo.csv', 'Brazil_0.csv', 'Brazil_1.csv', 'Brazil_2.csv', 'Desio.csv', 'Ethiopia.csv', 'HSR_Nov.csv', 'Spain.csv']
             for x in range(len(files)):
-                print(os.path.join(app.config['TEST_FOLDER'], files[x]))
                 data = (pd.read_csv(os.path.join(app.config['TEST_FOLDER'], files[x]), sep=';', squeeze=True))
                 y_test = data['y_true'].to_numpy()
                 y_proba = data['y_proba'].to_numpy()
-            #     labels[x] = labels[x] + " (" + texts[x] + ")"
-            # for dataset in os.listdir(app.config['TEST_FOLDER']):
-            #     y_test = (pd.read_csv(os.path.join(app.config['TEST_FOLDER'], dataset), sep=';', usecols=['y_true'], squeeze=True)).to_numpy()
-            #     y_proba = (pd.read_csv(os.path.join(app.config['TEST_FOLDER'], dataset), sep=';', usecols=['y_proba'], squeeze=True)).to_numpy()
-            #     print(y_test,y_proba)
-                # labels = np.append(labels, files[x][:-4]) 
-                # texts= np.append(texts, dataset[:2])
+
                 results = compute(y_test, y_proba)
+
                 aucs= np.append(aucs, results[0])
                 nbs = np.append(nbs, results[1])
                 briers = np.append(briers, results[2])
@@ -289,8 +241,7 @@ def choose_form(test1=False, test2 = False):
                 var_auc = np.append(var_auc, results[7])
                 var_nb = np.append(var_nb, results[8])
                 var_brier = np.append(var_brier, results[9])
-                print(sims, aucs, nbs, briers, labels, texts, instances, samples_auc, samples_nb, samples_brier,
-                                 var_auc, var_nb, var_brier)
+                
 
             offsets_x_auc = default_offsets(sims)    
             offsets_y_auc = default_offsets(sims) 
@@ -305,6 +256,7 @@ def choose_form(test1=False, test2 = False):
             
             img_step2 = step_two(sims, aucs, nbs, briers, labels, texts, instances, samples_auc, samples_nb, samples_brier,
                                  offsets_x_auc, offsets_y_auc, offsets_x_nb, offsets_y_nb, offsets_x_brier, offsets_y_brier, var_auc, var_nb, var_brier)    
+                                 
             return render_template('results_plt2.html', img_url=img_step2)                     
 
     else:
