@@ -4,7 +4,7 @@
 
 
 ### Table of Contents
-You're sections headers will be used to reference location of destination.
+Youre sections headers will be used to reference location of destination.
 
 - [Description](#description)
 - [Prerequisites](#prerequisites)
@@ -82,7 +82,7 @@ Make sure you have installed all of the following prerequisites on your developm
 If you are a contributors you can collaborate with other developers, before you share the project you
 need to download and install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 
-- acces with your heroku account typing `heroku login`
+- Access with your heroku account typing `heroku login`
 
     ```
     heroku: Press any key to open up the browser to login or q to exit: 
